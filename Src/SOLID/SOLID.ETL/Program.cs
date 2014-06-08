@@ -12,11 +12,8 @@ namespace SOLID.ETL
         {
             var filePath = args[0];
 
-            using (var reader = new StreamReader(filePath))
+            using (var extractor = new AccountExtraction(args[0]))
             {
-                var line = reader.ReadLine();
-                var headers = line.Split(',').ToArray();
-
                 using (var connection = new SqlConnection(ConfigurationManager.ConnectionStrings["ETL"].ConnectionString))
                 {
                     connection.Open();
@@ -24,16 +21,15 @@ namespace SOLID.ETL
 
                     try
                     {
-                        while ((line = reader.ReadLine()) != null)
+                        AccountData data;
+                        while ((data = extractor.GetNext()) != null)
                         {
-                            var values = line.Split(',').ToArray();
-
                             using (var cmd = connection.CreateCommand())
                             {
                                 cmd.CommandText = "INSERT INTO Accounts (Number, Name) VALUES (@number, @name)";
                                 cmd.Transaction = transaction;
-                                cmd.Parameters.AddWithValue("@number", values[0]);
-                                cmd.Parameters.AddWithValue("@name", values[1]);
+                                cmd.Parameters.AddWithValue("@number", data.Number);
+                                cmd.Parameters.AddWithValue("@name", data.Name);
                                 cmd.ExecuteNonQuery();
                             }
                         }
