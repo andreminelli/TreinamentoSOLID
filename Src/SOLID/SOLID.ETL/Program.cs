@@ -21,7 +21,7 @@ namespace SOLID.ETL
                 var line = reader.ReadLine();
                 var headers = line.Split(',').ToArray();
 
-                using (var connection = new SqlCeConnection(ConfigurationManager.ConnectionStrings["ETL"].ConnectionString))
+                using (var connection = new SqlConnection(ConfigurationManager.ConnectionStrings["ETL"].ConnectionString))
                 {
                     connection.Open();
                     var transaction = connection.BeginTransaction();
@@ -35,6 +35,7 @@ namespace SOLID.ETL
                             using (var cmd = connection.CreateCommand())
                             {
                                 cmd.CommandText = "INSERT INTO Accounts (Number, Name) VALUES (@number, @name)";
+                                cmd.Transaction = transaction;
                                 cmd.Parameters.AddWithValue("@number", values[0]);
                                 cmd.Parameters.AddWithValue("@name", values[1]);
                                 cmd.ExecuteNonQuery();
