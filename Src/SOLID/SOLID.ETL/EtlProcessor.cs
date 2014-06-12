@@ -20,7 +20,7 @@ namespace SOLID.ETL
 
         public void Execute()
         {
-            using (var extractor = new AccountExtraction(_sourceFilePath))
+            using (var extractor = new CsvAccountExtractor(_sourceFilePath))
             {
                 using (var connection = new SqlConnection(_targetConnectionString))
                 {
