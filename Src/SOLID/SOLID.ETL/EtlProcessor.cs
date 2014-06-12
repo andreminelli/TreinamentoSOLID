@@ -16,11 +16,13 @@ namespace SOLID.ETL
         {
             this._sourceFilePath = sourceFilePath;
             this._targetConnectionString = targetConnectionString;
+            this.ValidateBeforeLoad = data => { return data; };
         }
 
-        public int Execute()
+        public Func<AccountData, AccountData> ValidateBeforeLoad { get; set; }
+
+        public void Execute()
         {
-            var count = 0;
             using (var extractor = new CsvAccountExtractor(_sourceFilePath))
             {
                 using (var loader = new SqlAccountLoading(_targetConnectionString))
@@ -30,8 +32,8 @@ namespace SOLID.ETL
                         AccountData data;
                         while ((data = extractor.GetNext()) != null)
                         {
+                            data = ValidateBeforeLoad(data);
                             loader.Add(data);
-                            count++;
                         }
 
                         loader.Commit();
@@ -43,8 +45,6 @@ namespace SOLID.ETL
                     }
                 }
             }
-
-            return count;
         }
     }
 }
