@@ -10,29 +10,10 @@ namespace SOLID.ETL
     {
         static void Main(string[] args)
         {
-            var filePath = args[0];
+            var sourceFilePath = args[0];
+            var targetConnectionString = ConfigurationManager.ConnectionStrings["ETL"].ConnectionString;
 
-            using (var extractor = new AccountExtraction(args[0]))
-            {
-                using (var loader = new AccountLoading(ConfigurationManager.ConnectionStrings["ETL"].ConnectionString))
-                {
-                    try
-                    {
-                        AccountData data;
-                        while ((data = extractor.GetNext()) != null)
-                        {
-                            loader.Add(data);
-                        }
-
-                        loader.Commit();
-                    }
-                    catch (Exception)
-                    {
-                        loader.Rollback();
-                        throw;
-                    }
-                }
-            }
+            new EtlProcessor(sourceFilePath, targetConnectionString).Execute();
         }
     }
 }
