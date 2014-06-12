@@ -8,12 +8,12 @@ using System.Threading.Tasks;
 
 namespace SOLID.ETL
 {
-    public class AccountLoading : IDisposable
+    public class SqlAccountLoading : IDisposable
     {
         private SqlConnection _connection;
         private SqlTransaction _transaction;
 
-        public AccountLoading(string connectionString)
+        public SqlAccountLoading(string connectionString)
         {
             _connection = new SqlConnection(ConfigurationManager.ConnectionStrings["ETL"].ConnectionString);
             _connection.Open();

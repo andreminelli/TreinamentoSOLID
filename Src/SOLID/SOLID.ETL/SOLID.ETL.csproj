@@ -61,8 +61,8 @@
   <ItemGroup>
     <Compile Include="EtlProcessor.cs" />
     <Compile Include="AccountData.cs" />
-    <Compile Include="AccountExtraction.cs" />
-    <Compile Include="AccountLoading.cs" />
+    <Compile Include="CsvAccountExtractor.cs" />
+    <Compile Include="SqlAccountLoading.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
