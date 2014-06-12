@@ -18,8 +18,9 @@ namespace SOLID.ETL
             this._targetConnectionString = targetConnectionString;
         }
 
-        public void Execute()
+        public int Execute()
         {
+            var count = 0;
             using (var extractor = new CsvAccountExtractor(_sourceFilePath))
             {
                 using (var loader = new SqlAccountLoading(_targetConnectionString))
@@ -30,6 +31,7 @@ namespace SOLID.ETL
                         while ((data = extractor.GetNext()) != null)
                         {
                             loader.Add(data);
+                            count++;
                         }
 
                         loader.Commit();
@@ -41,6 +43,8 @@ namespace SOLID.ETL
                     }
                 }
             }
+
+            return count;
         }
     }
 }
