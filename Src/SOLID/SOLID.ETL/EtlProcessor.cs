@@ -12,15 +12,16 @@ namespace SOLID.ETL
         private string _sourceFilePath;
         private string _targetConnectionString;
 
+        public event EventHandler<AccountDataLoadedEventArgs> AccountLoaded;
+
         public EtlProcessor(string sourceFilePath, string targetConnectionString)
         {
             this._sourceFilePath = sourceFilePath;
             this._targetConnectionString = targetConnectionString;
         }
 
-        public int Execute()
+        public void Execute()
         {
-            var count = 0;
             using (var extractor = new CsvAccountExtractor(_sourceFilePath))
             {
                 using (var loader = new SqlAccountLoading(_targetConnectionString))
@@ -31,7 +32,7 @@ namespace SOLID.ETL
                         while ((data = extractor.GetNext()) != null)
                         {
                             loader.Add(data);
-                            count++;
+                            OnAccountLoaded(data);
                         }
 
                         loader.Commit();
@@ -43,8 +44,14 @@ namespace SOLID.ETL
                     }
                 }
             }
+        }
 
-            return count;
+        protected virtual void OnAccountLoaded(AccountData data)
+        {
+            if (AccountLoaded != null)
+            {
+                AccountLoaded(this, new AccountDataLoadedEventArgs(data));
+            }
         }
     }
 }
