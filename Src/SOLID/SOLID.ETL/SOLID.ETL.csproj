@@ -59,10 +59,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CountingEtlProcessor.cs" />
+    <Compile Include="CountingSqlAccountLoader.cs" />
     <Compile Include="EtlProcessor.cs" />
     <Compile Include="AccountData.cs" />
     <Compile Include="CsvAccountExtractor.cs" />
-    <Compile Include="SqlAccountLoading.cs" />
+    <Compile Include="SqlAccountLoader.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

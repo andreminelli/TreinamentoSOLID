@@ -8,19 +8,19 @@ using System.Threading.Tasks;
 
 namespace SOLID.ETL
 {
-    public class SqlAccountLoading : IDisposable
+    public class SqlAccountLoader : IDisposable
     {
         private SqlConnection _connection;
         private SqlTransaction _transaction;
 
-        public SqlAccountLoading(string connectionString)
+        public SqlAccountLoader(string connectionString)
         {
             _connection = new SqlConnection(ConfigurationManager.ConnectionStrings["ETL"].ConnectionString);
             _connection.Open();
             _transaction = _connection.BeginTransaction();
         }
 
-        public void Add(AccountData data)
+        public virtual void Add(AccountData data)
         {
             using (var cmd = _connection.CreateCommand())
             {
