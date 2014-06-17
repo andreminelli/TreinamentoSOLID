@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -22,6 +23,8 @@ namespace SOLID.ETL
 
         public virtual AccountData GetNext()
         {
+            Contract.Ensures(Contract.Result<AccountData>() != null);
+
             var line = _reader.ReadLine();
 
             if (line != null)
