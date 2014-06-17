@@ -20,7 +20,7 @@ namespace SOLID.ETL
             _headers = line.Split(separator).ToArray();
         }
 
-        public AccountData GetNext()
+        public virtual AccountData GetNext()
         {
             var line = _reader.ReadLine();
 
