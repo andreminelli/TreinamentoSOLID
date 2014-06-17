@@ -30,7 +30,7 @@ namespace SOLID.ETL
                 return new AccountData { Number = values[0], Name = values[1] };
             }
 
-            return null;
+            return AccountData.Empty;
         }
 
         public void Dispose()

@@ -29,7 +29,7 @@ namespace SOLID.ETL
                     try
                     {
                         AccountData data;
-                        while ((data = extractor.GetNext()) != null)
+                        while ((data = extractor.GetNext()) != AccountData.Empty)
                         {
                             _validator.Validate(data);
                             loader.Add(data);
