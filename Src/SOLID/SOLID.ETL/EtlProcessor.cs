@@ -22,7 +22,7 @@ namespace SOLID.ETL
 
         public void Execute()
         {
-            using (var extractor = new CsvAccountExtractor(_sourceFilePath))
+            using (var extractor = new DerivedCsvAccountExtractor(_sourceFilePath))
             {
                 using (var loader = new SqlAccountLoading(_targetConnectionString))
                 {
