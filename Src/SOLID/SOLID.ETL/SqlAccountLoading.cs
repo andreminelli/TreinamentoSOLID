@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace SOLID.ETL
 {
-    public class SqlAccountLoading : IDisposable
+    public class SqlAccountLoading : IAccountLoading
     {
         private SqlConnection _connection;
         private SqlTransaction _transaction;

@@ -9,34 +9,34 @@ namespace SOLID.ETL
 {
     public class EtlProcessor
     {
-        private string _sourceFilePath;
-        private string _targetConnectionString;
+        private readonly IAccountExtractor _accountExtractor;
+        private readonly IAccountLoading _accountLoader;
 
-        public EtlProcessor(string sourceFilePath, string targetConnectionString)
+        public EtlProcessor(IAccountExtractor accountExtractor, IAccountLoading accountLoader)
         {
-            this._sourceFilePath = sourceFilePath;
-            this._targetConnectionString = targetConnectionString;
+            this._accountExtractor = accountExtractor;
+            this._accountLoader = accountLoader;
         }
 
         public void Execute()
         {
-            using (var extractor = new CsvAccountExtractor(_sourceFilePath))
+            using (this._accountExtractor)
             {
-                using (var loader = new SqlAccountLoading(_targetConnectionString))
+                using (this._accountLoader)
                 {
                     try
                     {
                         AccountData data;
-                        while ((data = extractor.GetNext()) != null)
+                        while ((data = this._accountExtractor.GetNext()) != null)
                         {
-                            loader.Add(data);
+                            this._accountLoader.Add(data);
                         }
 
-                        loader.Commit();
+                        this._accountLoader.Commit();
                     }
                     catch (Exception)
                     {
-                        loader.Rollback();
+                        this._accountLoader.Rollback();
                         throw;
                     }
                 }

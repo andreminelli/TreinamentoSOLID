@@ -62,6 +62,8 @@
     <Compile Include="EtlProcessor.cs" />
     <Compile Include="AccountData.cs" />
     <Compile Include="CsvAccountExtractor.cs" />
+    <Compile Include="IAccountExtractor.cs" />
+    <Compile Include="IAccountLoading.cs" />
     <Compile Include="SqlAccountLoading.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

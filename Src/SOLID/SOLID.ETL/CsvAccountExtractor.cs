@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SOLID.ETL
 {
-    public class CsvAccountExtractor : IDisposable
+    public class CsvAccountExtractor : IAccountExtractor
     {
         private StreamReader _reader;
         private string[] _headers;
