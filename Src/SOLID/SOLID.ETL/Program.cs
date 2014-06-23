@@ -1,5 +1,4 @@
 ﻿using SimpleInjector;
-using SimpleInjector.Extensions;
 using System;
 using System.Configuration;
 using System.Data.SqlClient;
@@ -17,18 +16,12 @@ namespace SOLID.ETL
 
             var container = new Container();
 
-            var countingRegistration = Lifestyle.Singleton.CreateRegistration<CountingAccountLoading>(
-                () => new CountingAccountLoading(new SqlAccountLoading(targetConnectionString)), 
-                container);
-            container.AddRegistration(typeof(ICount), countingRegistration);
-            container.AddRegistration(typeof(IAccountLoading), countingRegistration);
+            container.Register<IAccountLoading>(() => new SqlAccountLoading(targetConnectionString));
             container.Register<IAccountExtractor>(() => new CsvAccountExtractor(sourceFilePath));
 
-            container.GetInstance<EtlProcessor>().Execute();
+            container.InterceptWith<CountingLoadingInterceptor>(type => type.Name.EndsWith("Loading"));
 
-            Console.WriteLine("Registros inseridos: {0}", container.GetInstance<ICount>().Count);
-            Console.WriteLine("Pression qualquer tecla para finalizar.");
-            Console.ReadKey();
+            container.GetInstance<EtlProcessor>().Execute();
         }
     }
 }

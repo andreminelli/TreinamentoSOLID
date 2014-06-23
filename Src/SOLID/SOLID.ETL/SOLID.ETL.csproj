@@ -66,12 +66,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CountingAccountLoading.cs" />
+    <Compile Include="CountingLoadingInterceptor.cs" />
     <Compile Include="EtlProcessor.cs" />
     <Compile Include="AccountData.cs" />
     <Compile Include="CsvAccountExtractor.cs" />
     <Compile Include="IAccountExtractor.cs" />
     <Compile Include="IAccountLoading.cs" />
     <Compile Include="ICount.cs" />
+    <Compile Include="InterceptionExtensions.cs" />
     <Compile Include="SqlAccountLoading.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
