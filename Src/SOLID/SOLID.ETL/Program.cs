@@ -1,4 +1,6 @@
-﻿using System;
+﻿using SimpleInjector;
+using SimpleInjector.Extensions;
+using System;
 using System.Configuration;
 using System.Data.SqlClient;
 using System.IO;
@@ -13,11 +15,14 @@ namespace SOLID.ETL
             var sourceFilePath = args[0];
             var targetConnectionString = ConfigurationManager.ConnectionStrings["ETL"].ConnectionString;
 
-            var accountExtractor = new CsvAccountExtractor(sourceFilePath);
-            var accountLoader = new CountingAccountLoading(new SqlAccountLoading(targetConnectionString));
-            new EtlProcessor(accountExtractor, accountLoader).Execute();
+            var container = new Container();
+            container.RegisterSingleDecorator(typeof(IAccountLoading), typeof(CountingAccountLoading));
+            container.Register<IAccountExtractor>(() => new CsvAccountExtractor(sourceFilePath));
+            container.RegisterSingle<IAccountLoading>(() => new SqlAccountLoading(targetConnectionString));
 
-            Console.WriteLine("Registros inseridos: {0}", accountLoader.Count);
+            container.GetInstance<EtlProcessor>().Execute();
+
+            Console.WriteLine("Registros inseridos: {0}", (container.GetInstance<IAccountLoading>() as CountingAccountLoading).Count);
             Console.WriteLine("Pression qualquer tecla para finalizar.");
             Console.ReadKey();
         }
