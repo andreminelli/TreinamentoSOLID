@@ -71,6 +71,7 @@
     <Compile Include="CsvAccountExtractor.cs" />
     <Compile Include="IAccountExtractor.cs" />
     <Compile Include="IAccountLoading.cs" />
+    <Compile Include="ICount.cs" />
     <Compile Include="SqlAccountLoading.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

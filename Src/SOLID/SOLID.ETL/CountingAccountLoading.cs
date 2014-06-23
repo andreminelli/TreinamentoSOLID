@@ -5,7 +5,7 @@ using System.Text;
 
 namespace SOLID.ETL
 {
-    public class CountingAccountLoading : IAccountLoading
+    public class CountingAccountLoading : IAccountLoading, ICount
     {
         private readonly IAccountLoading _main;
 
