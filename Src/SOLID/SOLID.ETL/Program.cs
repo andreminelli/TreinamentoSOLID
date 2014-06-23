@@ -13,7 +13,13 @@ namespace SOLID.ETL
             var sourceFilePath = args[0];
             var targetConnectionString = ConfigurationManager.ConnectionStrings["ETL"].ConnectionString;
 
-            new EtlProcessor(new CsvAccountExtractor(sourceFilePath), new SqlAccountLoading(targetConnectionString)).Execute();
+            var accountExtractor = new CsvAccountExtractor(sourceFilePath);
+            var accountLoader = new CountingAccountLoading(new SqlAccountLoading(targetConnectionString));
+            new EtlProcessor(accountExtractor, accountLoader).Execute();
+
+            Console.WriteLine("Registros inseridos: {0}", accountLoader.Count);
+            Console.WriteLine("Pression qualquer tecla para finalizar.");
+            Console.ReadKey();
         }
     }
 }
