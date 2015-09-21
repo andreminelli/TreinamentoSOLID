@@ -8,24 +8,27 @@ namespace SOLID.ETL
 {
     public class CountingEtlProcessor : EtlProcessor
     {
-        private CountingSqlAccountLoader _accountLoader;
-
         public CountingEtlProcessor(string sourceFilePath, string targetConnectionString)
             : base(sourceFilePath, targetConnectionString)
         {  }
 
-        public int RecordsProcessed { get; private set; }
+        public int _recordsProcessed;
 
         public override void Execute()
         {
+            _recordsProcessed = 0;
+
             base.Execute();
-            RecordsProcessed = _accountLoader.RecordsLoaded;
+
+            Console.WriteLine("Registros inseridos: {0}", _recordsProcessed);
+            Console.WriteLine("Pression qualquer tecla para finalizar.");
+            Console.ReadKey();
         }
 
-        protected override SqlAccountLoader MakeAccountLoader()
+        protected override void Load(AccountData data)
         {
-            _accountLoader = new CountingSqlAccountLoader(_targetConnectionString);
-            return _accountLoader;
+            base.Load(data);
+            _recordsProcessed++;
         }
     }
 }
