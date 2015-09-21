@@ -11,13 +11,11 @@ namespace SOLID.ETL
     {
         private string _sourceFilePath;
         private string _targetConnectionString;
-        private IValidateAccount _validator;
 
-        public EtlProcessor(string sourceFilePath, string targetConnectionString, IValidateAccount validator)
+        public EtlProcessor(string sourceFilePath, string targetConnectionString)
         {
             this._sourceFilePath = sourceFilePath;
             this._targetConnectionString = targetConnectionString;
-            this._validator = validator ?? new NullValidator();
         }
 
         public void Execute()
@@ -31,7 +29,6 @@ namespace SOLID.ETL
                         AccountData data;
                         while ((data = extractor.GetNext()) != null)
                         {
-                            _validator.Validate(data);
                             loader.Add(data);
                         }
 
