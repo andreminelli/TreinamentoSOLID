@@ -5,8 +5,9 @@ using System.Text;
 
 namespace SOLID.ETL
 {
-    public interface IValidateAccount
+    public interface IReportAccountLoaded
     {
-        void Validate(AccountData data);
+        void ReportLoaded(AccountData data);
+        void LoadFinished();
     }
 }
