@@ -5,8 +5,9 @@ using System.Text;
 
 namespace SOLID.ETL
 {
-    public interface IValidateAccount
+    class NullValidator : IValidateAccount
     {
-        void Validate(AccountData data);
+        public void Validate(AccountData data)
+        { }
     }
 }

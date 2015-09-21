@@ -11,17 +11,13 @@ namespace SOLID.ETL
     {
         private string _sourceFilePath;
         private string _targetConnectionString;
-        private IReportAccountLoaded _reporter;
+        private IValidateAccount _validator;
 
-        public EtlProcessor(string sourceFilePath, string targetConnectionString)
-            : this(sourceFilePath, targetConnectionString, new NullReporter())
-        { }
-
-        public EtlProcessor(string sourceFilePath, string targetConnectionString, IReportAccountLoaded reporter)
+        public EtlProcessor(string sourceFilePath, string targetConnectionString, IValidateAccount validator)
         {
             this._sourceFilePath = sourceFilePath;
             this._targetConnectionString = targetConnectionString;
-            this._reporter = reporter;
+            this._validator = validator ?? new NullValidator();
         }
 
         public void Execute()
@@ -35,12 +31,11 @@ namespace SOLID.ETL
                         AccountData data;
                         while ((data = extractor.GetNext()) != null)
                         {
+                            _validator.Validate(data);
                             loader.Add(data);
-                            _reporter.ReportLoaded(data);
                         }
 
                         loader.Commit();
-                        _reporter.LoadFinished();
                     }
                     catch (Exception)
                     {
