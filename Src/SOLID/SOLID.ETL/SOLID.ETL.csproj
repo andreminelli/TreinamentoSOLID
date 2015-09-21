@@ -63,7 +63,7 @@
     <Compile Include="EtlProcessor.cs" />
     <Compile Include="AccountData.cs" />
     <Compile Include="CsvAccountExtractor.cs" />
-    <Compile Include="IReportAccountLoaded.cs" />
+    <Compile Include="IValidateAccount.cs" />
     <Compile Include="NullReporter.cs" />
     <Compile Include="SqlAccountLoading.cs" />
     <Compile Include="Program.cs" />
