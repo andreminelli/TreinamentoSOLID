@@ -25,6 +25,10 @@ namespace SOLID.ETL
         public void Commit()
         {
             this._main.Commit();
+
+            Console.WriteLine("Registros inseridos: {0}", Count);
+            Console.WriteLine("Pression qualquer tecla para finalizar.");
+            Console.ReadKey();
         }
 
         public void Rollback()

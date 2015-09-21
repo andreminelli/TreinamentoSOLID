@@ -16,10 +16,6 @@ namespace SOLID.ETL
             var accountExtractor = new CsvAccountExtractor(sourceFilePath);
             var accountLoader = new CountingAccountLoading(new SqlAccountLoading(targetConnectionString));
             new EtlProcessor(accountExtractor, accountLoader).Execute();
-
-            Console.WriteLine("Registros inseridos: {0}", accountLoader.Count);
-            Console.WriteLine("Pression qualquer tecla para finalizar.");
-            Console.ReadKey();
         }
     }
 }
