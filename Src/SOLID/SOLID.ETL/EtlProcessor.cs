@@ -16,10 +16,10 @@ namespace SOLID.ETL
         {
             this._sourceFilePath = sourceFilePath;
             this._targetConnectionString = targetConnectionString;
-            this.ValidateBeforeLoad = data => { return data; };
+            this.ValidateBeforeLoad = data => { };
         }
 
-        public Func<AccountData, AccountData> ValidateBeforeLoad { get; set; }
+        public Action<AccountData> ValidateBeforeLoad { get; set; }
 
         public void Execute()
         {
@@ -32,7 +32,7 @@ namespace SOLID.ETL
                         AccountData data;
                         while ((data = extractor.GetNext()) != null)
                         {
-                            data = ValidateBeforeLoad(data);
+                            ValidateBeforeLoad(data);
                             loader.Add(data);
                         }
 

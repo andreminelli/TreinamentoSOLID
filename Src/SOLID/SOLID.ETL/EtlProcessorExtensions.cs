@@ -8,19 +8,20 @@ namespace SOLID.ETL
 {
     public static class EtlProcessorExtensions
     {
-        public static int ExecuteAndCount(this EtlProcessor processor)
+        public static void ExecuteAndCount(this EtlProcessor processor)
         {
             var count = 0;
 
             processor.ValidateBeforeLoad = data =>
                 {
                     count++;
-                    return data;
                 };
 
             processor.Execute();
 
-            return count;
+            Console.WriteLine("Registros inseridos: {0}", count);
+            Console.WriteLine("Pression qualquer tecla para finalizar.");
+            Console.ReadKey();
         }
 
     }
