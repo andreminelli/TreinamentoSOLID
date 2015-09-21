@@ -18,7 +18,7 @@ namespace SOLID.ETL
             this._targetConnectionString = targetConnectionString;
         }
 
-        public int Execute()
+        public void Execute()
         {
             var count = 0;
             using (var extractor = new CsvAccountExtractor(_sourceFilePath))
@@ -44,7 +44,9 @@ namespace SOLID.ETL
                 }
             }
 
-            return count;
+            Console.WriteLine("Registros inseridos: {0}", count);
+            Console.WriteLine("Pression qualquer tecla para finalizar.");
+            Console.ReadKey();
         }
     }
 }
