@@ -60,6 +60,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AccountDataLoadedEventArgs.cs" />
+    <Compile Include="CountingOutput.cs" />
     <Compile Include="EtlProcessor.cs" />
     <Compile Include="AccountData.cs" />
     <Compile Include="CsvAccountExtractor.cs" />

@@ -13,15 +13,7 @@ namespace SOLID.ETL
             var sourceFilePath = args[0];
             var targetConnectionString = ConfigurationManager.ConnectionStrings["ETL"].ConnectionString;
 
-            var total = 0;
-            var processor = new EtlProcessor(sourceFilePath, targetConnectionString);
-
-            processor.AccountLoaded += (sender, e) => { total++; };                
-            processor.Execute();
-
-            Console.WriteLine("Registros inseridos: {0}", total);
-            Console.WriteLine("Pression qualquer tecla para finalizar.");
-            Console.ReadKey();
+            new CountingOutput(new EtlProcessor(sourceFilePath, targetConnectionString)).Execute();
         }
     }
 }
